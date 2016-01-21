@@ -200,7 +200,7 @@ write.csv(StockReturns[1:20,c("SPY","AAPL")], file = "twentydays.csv", row.names
 
 Do not get surpsised if you see the csv file in your directories suddenly! You can then read the data from the csv file using the read.csv command. For example, this will load the data from the csv file and save it in a new variable that now is called "myData": 
 
-```{r eval = TRUE, echo=TRUE, comment=NA, warning=FALSE, message=FALSE,results='asis'}
+```{r eval = TRUE, echo=TRUE, comment=NA, warning=FALSE, message=FALSE, results='asis'}
 myData <- read.csv(file = "twentydays.csv", header = TRUE, sep=";")
 ```
 
