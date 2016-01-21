@@ -187,7 +187,7 @@ tail(StockReturns,5) </code></pre>
 <div id="part-iv-readwrite-.csv-files" class="section level3">
 <h3>Part IV: Read/Write .CSV files</h3>
 <p>Finally, one can read and write data in .CSV files. For example, we can save the first 20 days of data for S&amp;P and Apple in a file using the command:</p>
-<pre class="r"><code>write.csv(StockReturns[1:20,c(&quot;SPY&quot;,&quot;AAPL&quot;)], file = &quot;twentydays.csv&quot;, row.names = TRUE, col.names = TRUE) </code></pre>
+<pre class="r"><code>write.csv(StockReturns[1:20,c(&quot;SPY&quot;,&quot;AAPL&quot;, &quot;YHOO&quot;)], file = &quot;twentydays.csv&quot;, row.names = TRUE, col.names = TRUE) </code></pre>
 <p>Do not get surpsised if you see the csv file in your directories suddenly! You can then read the data from the csv file using the read.csv command. For example, this will load the data from the csv file and save it in a new variable that now is called “myData”:</p>
 <pre class="r"><code>myData &lt;- read.csv(file = &quot;twentydays.csv&quot;, header = TRUE, sep=&quot;;&quot;)</code></pre>
 <p>Try it!</p>
