@@ -165,9 +165,99 @@ print(m1,'chart')
 **Your Answers here:**
 <br>
 A1. 6 components
+<br>
 A2. 5 Year, 10 Year TNotes and Treasury Bonds
+<br>
 A3. These are the Principal Component Factors
 <br>
+A4.
+<br>
+(a) Pre-Crisis Years:
+<br>
+```{r echo=FALSE, comment=NA, warning=FALSE, error=FALSE,message=FALSE,results='asis'}
+
+crisis_data = futures_data[as.Date(rownames(futures_data)) > "2002-11-01" & as.Date(rownames(futures_data)) < "2007-10-01", ]
+
+show_data2 = data.frame(cbind(colnames(crisis_data), round(cor(crisis_data),2)))
+m2<-gvisTable(show_data2,options=list(width=1920, height=min(400,27*(nrow(show_data2)+1)),allowHTML=TRUE))
+print(m2,'chart')
+
+Variance_Explained_Table_results2 <-PCA(crisis_data, graph=FALSE)
+Variance_Explained_Table2 <-cbind(paste("component",1:ncol(crisis_data),sep=" "),Variance_Explained_Table_results2$eig)
+Variance_Explained_Table2<-as.data.frame(Variance_Explained_Table2)
+colnames(Variance_Explained_Table2)<-c("Component","Eigenvalue", "Percentage_of_explained_variance", "Cumulative_percentage_of_explained_variance")
+
+show_data2 = data.frame(Variance_Explained_Table2)
+m2<-gvisTable(show_data2,options=list(width=1920, height=min(400,27*(nrow(show_data2)+1)),allowHTML=TRUE,page='disable'),formats=list(Eigenvalue="#.##",Percentage_of_explained_variance="#.##",Cumulative_percentage_of_explained_variance="#.##"))
+print(m2,'chart')
+
+eigenvalues2  <- Variance_Explained_Table2[,2]
+
+df2           <- cbind(as.data.frame(eigenvalues2), c(1:length(eigenvalues2)), rep(1, length(eigenvalues2)))
+colnames(df2) <- c("eigenvalues", "components", "abline")
+Line2         <- gvisLineChart(as.data.frame(df2), xvar="components", yvar=c("eigenvalues","abline"), options=list(title='Scree plot', legend="right", width=900, height=600, hAxis="{title:'Number of Components', titleTextStyle:{color:'black'}}", vAxes="[{title:'Eigenvalues'}]",  series="[{color:'green',pointSize:3, targetAxisIndex: 0}]"))
+print(Line2, 'chart')
+
+corused2 = cor(crisis_data[,apply(crisis_data!=0,2,sum) > 10, drop=F])
+Rotated_Results2 <- principal(corused2, nfactors=20, rotate="varimax",score=TRUE)
+Rotated_Factors2 <- round(Rotated_Results2$loadings,2)
+Rotated_Factors2 <-as.data.frame(unclass(Rotated_Factors2))
+colnames(Rotated_Factors2)<-paste("Component",1:ncol(Rotated_Factors2),sep=" ")
+
+sorted_rows2 <- sort(Rotated_Factors2[,1], decreasing = TRUE, index.return = TRUE)$ix
+Rotated_Factors2 <- Rotated_Factors2[sorted_rows2,]
+Rotated_Factors2[abs(Rotated_Factors2) < 0.3]<-NA
+
+show_data2 <- Rotated_Factors2 
+show_data2 <-cbind(rownames(show_data2),show_data2)
+colnames(show_data2)<-c("Variables",colnames(Rotated_Factors2))
+m2<-gvisTable(show_data2,options=list(showRowNumber=TRUE,width=1220, height=min(400,27*(nrow(show_data)+1)),allowHTML=TRUE,page='disable'))
+print(m2,'chart')
+```
+
+<br>
+(b) Financial Crisis Years
+<br>
+```{r echo=FALSE, comment=NA, warning=FALSE, error=FALSE,message=FALSE,results='asis'}
+
+crisis_data = futures_data[as.Date(rownames(futures_data)) > "2007-10-01" & as.Date(rownames(futures_data)) < "2009-03-01", ]
+
+show_data2 = data.frame(cbind(colnames(crisis_data), round(cor(crisis_data),2)))
+m2<-gvisTable(show_data2,options=list(width=1920, height=min(400,27*(nrow(show_data2)+1)),allowHTML=TRUE))
+print(m2,'chart')
+
+Variance_Explained_Table_results2 <-PCA(crisis_data, graph=FALSE)
+Variance_Explained_Table2 <-cbind(paste("component",1:ncol(crisis_data),sep=" "),Variance_Explained_Table_results2$eig)
+Variance_Explained_Table2<-as.data.frame(Variance_Explained_Table2)
+colnames(Variance_Explained_Table2)<-c("Component","Eigenvalue", "Percentage_of_explained_variance", "Cumulative_percentage_of_explained_variance")
+
+show_data2 = data.frame(Variance_Explained_Table2)
+m2<-gvisTable(show_data2,options=list(width=1920, height=min(400,27*(nrow(show_data2)+1)),allowHTML=TRUE,page='disable'),formats=list(Eigenvalue="#.##",Percentage_of_explained_variance="#.##",Cumulative_percentage_of_explained_variance="#.##"))
+print(m2,'chart')
+
+eigenvalues2  <- Variance_Explained_Table2[,2]
+
+df2           <- cbind(as.data.frame(eigenvalues2), c(1:length(eigenvalues2)), rep(1, length(eigenvalues2)))
+colnames(df2) <- c("eigenvalues", "components", "abline")
+Line2         <- gvisLineChart(as.data.frame(df2), xvar="components", yvar=c("eigenvalues","abline"), options=list(title='Scree plot', legend="right", width=900, height=600, hAxis="{title:'Number of Components', titleTextStyle:{color:'black'}}", vAxes="[{title:'Eigenvalues'}]",  series="[{color:'green',pointSize:3, targetAxisIndex: 0}]"))
+print(Line2, 'chart')
+
+corused2 = cor(crisis_data[,apply(crisis_data!=0,2,sum) > 10, drop=F])
+Rotated_Results2 <- principal(corused2, nfactors=20, rotate="varimax",score=TRUE)
+Rotated_Factors2 <- round(Rotated_Results2$loadings,2)
+Rotated_Factors2 <-as.data.frame(unclass(Rotated_Factors2))
+colnames(Rotated_Factors2)<-paste("Component",1:ncol(Rotated_Factors2),sep=" ")
+
+sorted_rows2 <- sort(Rotated_Factors2[,1], decreasing = TRUE, index.return = TRUE)$ix
+Rotated_Factors2 <- Rotated_Factors2[sorted_rows2,]
+Rotated_Factors2[abs(Rotated_Factors2) < 0.3]<-NA
+
+show_data2 <- Rotated_Factors2 
+show_data2 <-cbind(rownames(show_data2),show_data2)
+colnames(show_data2)<-c("Variables",colnames(Rotated_Factors2))
+m2<-gvisTable(show_data2,options=list(showRowNumber=TRUE,width=1220, height=min(400,27*(nrow(show_data)+1)),allowHTML=TRUE,page='disable'))
+print(m2,'chart')
+```
 <br>
 <br>
 
