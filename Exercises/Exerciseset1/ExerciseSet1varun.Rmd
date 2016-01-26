@@ -217,6 +217,8 @@ myData + StockReturns[1:40,])
 
 **Your Answers here:**
 <br>
+A1. [1] 20
+A2. 
 <br>
 <br>
 <br>
